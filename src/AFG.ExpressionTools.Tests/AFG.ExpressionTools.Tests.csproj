@@ -79,6 +79,7 @@
     <Compile Include="PredicateBuilderTests.cs" />
     <Compile Include="ProjectionBuilderTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SumReplacementTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
