@@ -111,6 +111,23 @@ namespace AFG.ExpressionTools.Tests
         }
 
         [Theory, AutoData]
+        public void ComposeReplacesParameterWithBodyInComplexExpression(int i)
+        {
+            // arrange
+            Expression<Func<int, int>> first = x => x + x + x;
+            Expression<Func<int, int>> second = y => y * y;
+            var expected = second.Compile()(first.Compile()(i));
+
+            var expr = first.Compose(second);
+
+            // act
+            var result = expr.Compile()(i);
+
+            // assert
+            result.Should().Be(expected);
+        }
+
+        [Theory, AutoData]
         public void CoalesceReturnsFunctionResultWhenNotNull(int i, int j)
         {
             // arrange

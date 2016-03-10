@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace AFG.ExpressionTools.Utility
 {
@@ -12,6 +13,23 @@ namespace AFG.ExpressionTools.Utility
             if (constant == null)
                 return false;
             return constant.Value.Equals(value);
+        }
+
+        public static PropertyInfo GetPropertyInfo<T1, T2>(this Expression<Func<T1, T2>> propertyGetter)
+        {
+            var memberExpr = propertyGetter.Body as MemberExpression;
+            if (memberExpr == null)
+                throw new ArgumentException("Expression should be property getter: " + propertyGetter);
+            var propInfo = memberExpr.Member as PropertyInfo;
+            if (propInfo == null)
+                throw new ArgumentException("Expression should be property getter: " + propertyGetter);
+            return propInfo;
+        }
+
+        public static MemberInitExpression AddBinding(this MemberInitExpression memberInit, MemberBinding binding)
+        {
+            var bindings = new List<MemberBinding>(memberInit.Bindings) { binding };
+            return Expression.MemberInit(memberInit.NewExpression, bindings);
         }
 
         public static Expression Replace(this Expression expression, Expression toReplace, Expression replacement)
