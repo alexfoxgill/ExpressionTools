@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AFG.ExpressionTools", "AFG.ExpressionTools\AFG.ExpressionTools.csproj", "{4F12FDF1-90D5-4683-AD3C-F1320B6633C7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AFG.ExpressionTools.Tests", "AFG.ExpressionTools.Tests\AFG.ExpressionTools.Tests.csproj", "{BF8A4EF1-0195-40AC-969B-A76A3FD2C191}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{4F12FDF1-90D5-4683-AD3C-F1320B6633C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F12FDF1-90D5-4683-AD3C-F1320B6633C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F12FDF1-90D5-4683-AD3C-F1320B6633C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF8A4EF1-0195-40AC-969B-A76A3FD2C191}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF8A4EF1-0195-40AC-969B-A76A3FD2C191}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF8A4EF1-0195-40AC-969B-A76A3FD2C191}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF8A4EF1-0195-40AC-969B-A76A3FD2C191}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
