@@ -37,11 +37,11 @@ namespace AFG.ExpressionTools
         /// <returns>An expression representing a logical "and" between both predicates</returns>
         public static Expression<Func<T, bool>> And<T>(this Expression<Func<T, bool>> first, Expression<Func<T, bool>> second)
         {
-            if (UtilityExtensions.IsConstant(first, true))
+            if (ExpressionUtility.IsConstant(first, true))
                 return second;
-            if (UtilityExtensions.IsConstant(second, true))
+            if (ExpressionUtility.IsConstant(second, true))
                 return first;
-            if (UtilityExtensions.IsConstant(first, false) || UtilityExtensions.IsConstant(second, false))
+            if (ExpressionUtility.IsConstant(first, false) || ExpressionUtility.IsConstant(second, false))
                 return False<T>();
             return first.Combine(second, (a, b) => a && b);
         }
@@ -55,11 +55,11 @@ namespace AFG.ExpressionTools
         /// <returns>An expression representing a logical "or" between both predicates</returns>
         public static Expression<Func<T, bool>> Or<T>(this Expression<Func<T, bool>> first, Expression<Func<T, bool>> second)
         {
-            if (UtilityExtensions.IsConstant(first, false))
+            if (ExpressionUtility.IsConstant(first, false))
                 return second;
-            if (UtilityExtensions.IsConstant(second, false))
+            if (ExpressionUtility.IsConstant(second, false))
                 return first;
-            if (UtilityExtensions.IsConstant(first, true) || UtilityExtensions.IsConstant(second, true))
+            if (ExpressionUtility.IsConstant(first, true) || ExpressionUtility.IsConstant(second, true))
                 return True<T>();
             return first.Combine(second, (a, b) => a || b);
         }

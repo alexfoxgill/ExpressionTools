@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AFG.ExpressionTools.Utility;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 
@@ -24,7 +25,7 @@ namespace AFG.ExpressionTools
         {
             // replace second's parameter with first's
             var inputParameter = first.Parameters[0];
-            var expr2Body = ExpressionReplacer.Replace(second.Parameters[0], inputParameter, second.Body);
+            var expr2Body = second.Body.Replace(second.Parameters[0], inputParameter);
 
             // then replace both expressions in combining func
             var map = new Dictionary<Expression, Expression>
@@ -32,7 +33,7 @@ namespace AFG.ExpressionTools
                 { combineExpr.Parameters[0], first.Body },
                 { combineExpr.Parameters[1], expr2Body }
             };
-            var replaced = ExpressionReplacer.Replace(map, combineExpr.Body);
+            var replaced = combineExpr.Body.Replace(map);
             return Expression.Lambda<Func<T, TResult>>(replaced, inputParameter);
         }
 
@@ -49,7 +50,7 @@ namespace AFG.ExpressionTools
             this Expression<Func<T1, T2>> first,
             Expression<Func<T2, T3>> second)
         {
-            var replaced = ExpressionReplacer.Replace(second.Parameters[0], first.Body, second.Body);
+            var replaced = second.Body.Replace(second.Parameters[0], first.Body);
             return Expression.Lambda<Func<T1, T3>>(replaced, first.Parameters[0]);
         }
 
@@ -65,35 +66,6 @@ namespace AFG.ExpressionTools
             where TResult : struct
         {
             return expr.Compose(x => x ?? defaultValue);
-        }
-
-        class ExpressionReplacer : ExpressionVisitor
-        {
-            private readonly IReadOnlyDictionary<Expression, Expression> _map;
-
-            private ExpressionReplacer(IReadOnlyDictionary<Expression, Expression> map)
-            {
-                _map = map;
-            }
-
-            public override Expression Visit(Expression node)
-            {
-                Expression replace;
-                if (_map.TryGetValue(node, out replace))
-                    return replace;
-                return base.Visit(node);
-            }
-
-            public static Expression Replace(Expression toReplace, Expression replacement, Expression replaceIn)
-            {
-                var map = new Dictionary<Expression, Expression>() { { toReplace, replacement } };
-                return new ExpressionReplacer(map).Visit(replaceIn);
-            }
-
-            public static Expression Replace(IReadOnlyDictionary<Expression, Expression> map, Expression replaceIn)
-            {
-                return new ExpressionReplacer(map).Visit(replaceIn);
-            }
         }
     }
 }

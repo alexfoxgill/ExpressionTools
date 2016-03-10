@@ -50,7 +50,7 @@ namespace AFG.ExpressionTools.Tests
             var result = PredicateBuilder.And(first, second);
 
             // assert
-            result.Should().Match<Expression<Func<int, bool>>>(x => UtilityExtensions.IsConstant(x, false));
+            result.Should().Match<Expression<Func<int, bool>>>(x => ExpressionUtility.IsConstant(x, false));
         }
 
         [Fact]
@@ -64,7 +64,7 @@ namespace AFG.ExpressionTools.Tests
             var result = PredicateBuilder.And(first, second);
 
             // assert
-            result.Should().Match<Expression<Func<int, bool>>>(x => UtilityExtensions.IsConstant(x, false));
+            result.Should().Match<Expression<Func<int, bool>>>(x => ExpressionUtility.IsConstant(x, false));
         }
 
         [Theory, AutoData]
@@ -92,7 +92,7 @@ namespace AFG.ExpressionTools.Tests
             var result = PredicateBuilder.Or(first, second);
 
             // assert
-            result.Should().Match<Expression<Func<int, bool>>>(x => UtilityExtensions.IsConstant(x, true));
+            result.Should().Match<Expression<Func<int, bool>>>(x => ExpressionUtility.IsConstant(x, true));
         }
 
         [Fact]
@@ -106,7 +106,7 @@ namespace AFG.ExpressionTools.Tests
             var result = PredicateBuilder.Or(first, second);
 
             // assert
-            result.Should().Match<Expression<Func<int, bool>>>(x => UtilityExtensions.IsConstant(x, true));
+            result.Should().Match<Expression<Func<int, bool>>>(x => ExpressionUtility.IsConstant(x, true));
         }
 
         [Fact]
@@ -174,7 +174,7 @@ namespace AFG.ExpressionTools.Tests
             var result = PredicateBuilder.All(predicates);
 
             // assert
-            result.Should().Match<Expression<Func<int, bool>>>(x => UtilityExtensions.IsConstant(x, true));
+            result.Should().Match<Expression<Func<int, bool>>>(x => ExpressionUtility.IsConstant(x, true));
         }
 
         [Theory, AutoData]
@@ -223,7 +223,7 @@ namespace AFG.ExpressionTools.Tests
             var result = PredicateBuilder.Any(predicates);
 
             // assert
-            result.Should().Match<Expression<Func<int, bool>>>(x => UtilityExtensions.IsConstant(x, false));
+            result.Should().Match<Expression<Func<int, bool>>>(x => ExpressionUtility.IsConstant(x, false));
         }
 
         [Theory, AutoData]
