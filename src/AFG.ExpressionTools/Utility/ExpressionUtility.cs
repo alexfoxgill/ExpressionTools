@@ -34,35 +34,34 @@ namespace AFG.ExpressionTools.Utility
 
         public static Expression Replace(this Expression expression, Expression toReplace, Expression replacement)
         {
-            var map = new Dictionary<Expression, Expression>() { { toReplace, replacement } };
-            return ExpressionReplacer.Replace(expression, map);
+            return ExpressionReplacer.Replace(expression, toReplace.Equals, x => replacement);
         }
 
-        public static Expression Replace(this Expression expression, IReadOnlyDictionary<Expression, Expression> replacementMap)
+        public static Expression Replace(this Expression expression, IReadOnlyDictionary<Expression, Expression> map)
         {
-            return ExpressionReplacer.Replace(expression, replacementMap);
+            return ExpressionReplacer.Replace(expression, map.ContainsKey, x => map[x]);
         }
 
         class ExpressionReplacer : ExpressionVisitor
         {
-            private readonly IReadOnlyDictionary<Expression, Expression> _replacementMap;
+            private readonly Func<Expression, bool> _match;
+            private readonly Func<Expression, Expression> _replace;
 
-            private ExpressionReplacer(IReadOnlyDictionary<Expression, Expression> replacementMap)
+            private ExpressionReplacer(Func<Expression, bool> match, Func<Expression, Expression> replace)
             {
-                _replacementMap = replacementMap;
+                _match = match;
+                _replace = replace;
             }
 
             public override Expression Visit(Expression node)
             {
-                Expression replace;
-                if (_replacementMap.TryGetValue(node, out replace))
-                    return replace;
-                return base.Visit(node);
+                return _match(node) ? _replace(node) : base.Visit(node);
             }
 
-            public static Expression Replace(Expression expression, IReadOnlyDictionary<Expression, Expression> replacementMap)
+            public static Expression Replace(Expression expression, Func<Expression, bool> match,
+                Func<Expression, Expression> replace)
             {
-                return new ExpressionReplacer(replacementMap).Visit(expression);
+                return new ExpressionReplacer(match, replace).Visit(expression);
             }
         }
     }
